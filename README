@@ -1,0 +1,14 @@
+A fast shortcut menu.
+
+Will read `$HOME/.fastmenu` and display a dmenu-based menu from where
+to select the right item. The config file defines the list of items to
+display in the menu in the format `label | path`. If you want to use
+something other than the pipe as a separator, edit the `SEP` constant
+in fm.py.
+
+
+i3 configuration
+----------------
+Add something like this to the configuration:
+
+bindsym $mod+Shift+w exec /path/to/fm-run.sh

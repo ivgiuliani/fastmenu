@@ -2,6 +2,7 @@
 # This script is intentionally short, therefore many assumptions are made.
 
 import os, sys
+from collections import OrderedDict
 
 CONFIGS = (
     os.path.join(os.environ['HOME'], ".fastmenu"),
@@ -16,7 +17,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "--split":
 else:
     valid_cfg = [config for config in CONFIGS if os.path.exists(config)]
     if valid_cfg:
-        cfg = dict([line.strip().split(SEP) for line in file(valid_cfg[0]) if line.strip()])
+        cfg = OrderedDict([line.strip().split(SEP) for line in file(valid_cfg[0]) if line.strip()])
         longest = max([len(k) for k in cfg])
         for label, cmd in cfg.items():
             print("%s %s %s" % (label.ljust(longest), SEP, cmd))

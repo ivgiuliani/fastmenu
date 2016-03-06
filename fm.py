@@ -8,10 +8,10 @@ CONFIGS = (
     "fastmenu.cfg",
 )
 
-if len(sys.argv) > 1 and sys.argv[1] == "--exec":
+if len(sys.argv) > 1 and sys.argv[1] == "--split":
     items = sys.stdin.readlines()
     if len(items) > 0:
-        os.system(items[0].split("|")[1])
+        print(items[0].split("|")[1])
 else:
     valid_cfg = [config for config in CONFIGS if os.path.exists(config)]
     if valid_cfg:

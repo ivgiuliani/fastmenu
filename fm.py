@@ -1,36 +1,23 @@
 #!/usr/bin/env python
+# This script is intentionally short, therefore many assumptions are made.
 
-import os
-import sys
+import os, sys
 
 CONFIGS = (
     os.path.join(os.environ['HOME'], ".fastmenu"),
     "fastmenu.cfg",
 )
 
-
-def load_config(config_file_path):
-    return dict([line.strip().split("|") for line in file(config_file_path) if line.strip()])
-
-
-def main(args):
-    if len(args) > 1 and args[1] == "--exec":
-        items = sys.stdin.readlines()
-        if len(items) > 0:
-            label, cmd = items[0].split("|")
-            os.system(cmd.strip())
-    else:
-        valid_cfg = [config for config in CONFIGS if os.path.exists(config)]
-        if not valid_cfg:
-            print("No config file found.")
-            return False
-        cfg = load_config(valid_cfg[0])
+if len(sys.argv) > 1 and sys.argv[1] == "--exec":
+    items = sys.stdin.readlines()
+    if len(items) > 0:
+        os.system(items[0].split("|")[1])
+else:
+    valid_cfg = [config for config in CONFIGS if os.path.exists(config)]
+    if valid_cfg:
+        cfg = dict([line.strip().split("|") for line in file(valid_cfg[0]) if line.strip()])
         longest = max([len(k) for k in cfg])
-        for k, v in cfg.items():
-            print("%s | %s" % (k.ljust(longest), v))
+        for label, cmd in cfg.items():
+            print("%s | %s" % (label.ljust(longest), cmd))
 
-    return True
-
-
-if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+sys.exit(0)
